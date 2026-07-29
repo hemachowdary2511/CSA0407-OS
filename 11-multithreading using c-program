@@ -1,0 +1,33 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+
+// Function executed by the first thread
+void *thread1_function(void *arg) {
+    printf("Thread 1 is running\n");
+    return NULL;
+}
+
+// Function executed by the second thread
+void *thread2_function(void *arg) {
+    printf("Thread 2 is running\n");
+    return NULL;
+}
+
+int main() {
+    pthread_t thread1, thread2;
+
+    // Create first thread
+    pthread_create(&thread1, NULL, thread1_function, NULL);
+
+    // Create second thread
+    pthread_create(&thread2, NULL, thread2_function, NULL);
+
+    // Wait for both threads to finish
+    pthread_join(thread1, NULL);
+    pthread_join(thread2, NULL);
+
+    printf("Both threads completed execution\n");
+
+    return 0;
+}

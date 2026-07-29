@@ -1,0 +1,32 @@
+#include <stdio.h>
+#include <sys/ipc.h>
+#include <sys/shm.h>
+#include <string.h>
+#include <unistd.h>
+
+int main()
+{
+    int shmid;
+    char *str;
+
+    /* Create shared memory */
+    shmid = shmget(IPC_PRIVATE, 1024, IPC_CREAT | 0666);
+
+    /* Attach shared memory */
+    str = (char *)shmat(shmid, NULL, 0);
+
+    /* Write data */
+    strcpy(str, "Hello from Parent Process");
+
+    if (fork() == 0)
+    {
+        /* Child process reads data */
+        printf("Message Read by Child: %s\n", str);
+    }
+
+    /* Detach and remove shared memory */
+    shmdt(str);
+    shmctl(shmid, IPC_RMID, NULL);
+
+    return 0;
+}

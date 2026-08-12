@@ -1,0 +1,20 @@
+#include <stdio.h>
+#include <unistd.h>
+#include <string.h>
+
+int main()
+{
+    char msg[] = "Hello, UNIX System Calls!\n";
+    char buffer[100];
+
+    write(1, msg, strlen(msg));
+
+    printf("Enter some text: ");
+    int n = read(0, buffer, sizeof(buffer)-1);
+
+    buffer[n] = '\0';
+
+    printf("You entered: %s", buffer);
+
+    return 0;
+}
